@@ -1,0 +1,170 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{stdthesis}[My package for thesi]
+
+%This package is my standard preamble used for papers / thesi
+%It adds all usual math packages as well as the custom \todo and \printTodoList commands.
+
+% Packages for mathematical symbols and environments
+\RequirePackage{amsmath, amssymb, amsthm, amsfonts}
+\RequirePackage{mathrsfs}
+\RequirePackage{mathtools} % for additional math tools
+\RequirePackage{enumitem}
+\RequirePackage{faktor}
+
+% Packages for graphics and plotting 
+\RequirePackage{tikz-cd}
+\RequirePackage{pgfplots}
+\RequirePackage{adjustbox}
+\RequirePackage{graphicx}
+\usepackage{tabularx}
+\usepackage{multicol}
+\usepackage{svg}
+
+% (Cross) Referencing and other stuff
+\RequirePackage{hyperref}
+\RequirePackage{subfiles}
+\RequirePackage[style=alphabetic,sorting=nyt, backend=bibtex]{biblatex}
+\RequirePackage{appendix}
+
+% Hyperref Style
+\hypersetup{
+  colorlinks=false, % Set this to false if you want to have colored boxes instead of colored text
+  linkcolor=blue,  % Color for internal links
+  citecolor=green, % Color for citations
+  urlcolor=red,    % Color for external links
+  linkbordercolor=red, % Color for the border around links - white to hide
+}
+
+% Font packages
+\RequirePackage[T1]{fontenc}
+\RequirePackage{lmodern} % or \RequirePackage{mathptmx} for Times New Roman font
+
+%Todonotes - a custom \Todo command with included table of contents
+\RequirePackage{forloop}
+\RequirePackage{etoolbox}
+\RequirePackage{xcolor}
+\RequirePackage{xstring}
+\definecolor{mycolor}{HTML}{E3DDC5}
+\RequirePackage{pdfcomment}
+\newcounter{todocounter}
+%\todo command
+\newcommand{\todo}[1]{\stepcounter{todocounter}\expandafter\gdef\csname todo\thetodocounter\endcsname{#1}\label{todo:\thetodocounter}\pdfmarkupcomment[color=mycolor,opacity=0,markup=Squiggly]{TODO:\thetodocounter}{#1}}
+%prints the todo corresponding to the index
+\newcommand{\printTodo}[1]{%
+  \csname todo#1\endcsname% Print the saved string corresponding to the index
+}
+%prints the list of todos
+\newcommand{\printTodoList}{
+  \newpage
+  \section*{Things left to do}
+  \vspace{7mm}
+  \newcounter{x}
+  \stepcounter{todocounter}
+  \setlength\parindent{0pt}
+  \leftskip=-20mm
+  \begin{tabularx}{\dimexpr\linewidth+20mm}{@{}p{20mm}p{15mm}Xr@{}}
+    \forloop{x}{1}{\value{x} < \thetodocounter}{
+    \Small{section \getrefnumber{todo:\thex}} & \hyperref[todo:\arabic{x}]{Todo \thex}: & \csname todo\thex\endcsname & \pageref*{todo:\arabic{x}} \\
+    }
+  \end{tabularx}
+}
+%Auxillary funciton for \printTodoListwithSecitons
+\newcounter{sectionCounter}
+\makeatletter
+\newcommand{\updateSection}[1]{%
+  \IfSubStr{#1}{.}{%
+    \StrBefore{#1}{.}[\tempSection]%
+    \setcounter{sectionCounter}{\tempSection}%
+  }{%
+    \setcounter{sectionCounter}{#1}%
+  }%
+}
+\makeatother
+%prints the list of todos and includes an indication in which section they are in.
+\newcommand{\printTodoListwithSections}{
+  \newpage
+  \section*{Things left to do}
+  \vspace{7mm}
+  \newcounter{x}
+  \newcounter{lastSection}
+  \stepcounter{todocounter}
+  \setlength\parindent{0pt}
+  \leftskip=-20mm
+  \begin{tabularx}{\dimexpr\linewidth+20mm}{@{}p{20mm}p{15mm}Xr@{}}
+    \forloop{x}{1}{\value{x} < \thetodocounter}{
+      \edef\tempsection{\getrefnumber{todo:\thex}}
+      \ifx\tempsection\empty
+        \Small Abstract
+      \else
+        \updateSection{\tempsection}
+        \ifnum\thesectionCounter>\thelastSection
+          \Small Section \setcounter{lastSection}{\thesectionCounter} \thesectionCounter
+        \fi
+      \fi
+     & \hyperref[todo:\arabic{x}]{Todo \thex}: & \csname todo\thex\endcsname & \pageref*{todo:\arabic{x}} \\
+    }
+  \end{tabularx}
+}
+
+% Theorem styles
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{proposition}{Proposition}[section]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Example}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+\newtheorem{question}{Question}[section]
+\newtheorem{notation}{Notation}[section]
+
+% Numbering style and autoref
+\numberwithin{equation}{section} % Number equations within sections
+\newcommand{\propositionautorefname}{Proposition}
+\newcommand{\corollaryautorefname}{Corollary}
+\newcommand{\definitionautorefname}{Definition}
+\newcommand{\remarkbautorefname}{Remark}
+\newcommand{\lemmaautorefname}{Lemma}
+\newcommand{\exampleautorefname}{Example}
+\newcommand{\secautorefname}{section}
+\newcommand{\notaautorefname}{Notation}
+\newcommand{\questionautorefname}{Question}
+
+% Custom enviroments
+\newenvironment{proof-sketch}[1][Proof Sketch] % Dashed qed-symbol proof enviroment
+{\begin{proof}[#1]\renewcommand{\qedsymbol}{\begin{picture}(7,7)\put(0,0){\dashbox{1}(7,7)}\end{picture}}}
+    {\end{proof}}
+
+% Custom math commands
+\newcommand{\mathpre}[1]{\small${(#1)}$\nobreakdash\ignorespaces}
+\newcommand\restr[2]{% We make restrictions into an ordinary symbol
+\left.\kern-\nulldelimiterspace % automatically resize the bar with \right
+#1 % the function
+\vphantom{\big|} % pretend it's a little taller at normal size
+\right|_{#2} % this is the delimiter
+}
+\DeclareMathOperator*{\smlinv}{\scriptstyle^{-1}}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Pj}{\mathbb{P}}
+\newcommand{\A}{\mathbb{A}}
+\renewcommand{\O}{\mathcal{O}}
+\newcommand{\p}{\mathfrak{p}}
+
+
+\DeclareMathOperator\Pic{Pic}
+\DeclareMathOperator\Div{Div}
+\DeclareMathOperator\Spec{Spec}
+\DeclareMathOperator\coker{coker}
+\DeclareMathOperator\Rat{Rat}
+\DeclareMathOperator\ord{ord}
+\DeclareMathOperator\dv{div}
+\DeclareMathOperator\Irr{Irr}
+
+\endinput

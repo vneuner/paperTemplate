@@ -1,0 +1,56 @@
+{
+    //settings.json file for Latex projects
+
+    //Style of the workbench
+    "workbench.colorTheme": "AVC LaTeX Dark",
+    //"workbench.colorTheme": "Shades of Purple (Super Dark)",
+    //"workbench.colorTheme": "Shades of Purple (Super Dark)",
+    //"workbench.colorTheme":"THEME VALHALLA",
+    "editor.wordWrap": "on",
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.autoIndent": "full",
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "James-Yu.latex-workshop",
+    "latex-workshop.synctex.synctexjs.enabled": true,
+    "latex-workshop.synctex.afterBuild.enabled": true,
+    "latex-workshop.view.pdf.viewer": "singleton",
+    
+    //Style of zenMode
+    "zenMode.centerLayout": false,
+    "zenMode.hideActivityBar": true,
+    "zenMode.hideStatusBar": true,
+    "zenMode.hideLineNumbers": false,
+    "zenMode.hideTabs": false,
+
+    //Appearence of the file explorer
+    "files.exclude": {
+        "**/*.pdf": true,
+        "**/*.aux": true,
+        "**/*.auxlock": true,
+        "**/*.lof": true,
+        "**/*.log": true,
+        "**/*.lot": true,
+        "**/*.fls": true,
+        "**/*.out": true,
+        "**/*.toc": true,
+        "**/*.fmt": true,
+        "**/*.fot": true,
+        "**/*.cb": true,
+        "**/*.cb2": true,
+        "**/.*.lb": true,
+        "**/*.bbl": true,
+        "**/*.bcf": true,
+        "**/*.blg": true,
+        "**/*-blx.aux": true,
+        "**/*-blx.bib": true,
+        "**/*.run.xml": true,
+        "**/*.fdb_latexmk": true,
+        "**/*.synctex": true,
+        "**/*.synctex.gz": true,
+        "**/*.upa": true,
+        "**/*.upb": true
+    },
+    "explorer.sortOrder": "type",
+
+}

@@ -1,0 +1,3 @@
+{"rule":"ARTICLE_ADJECTIVE_OF","sentence":"^\\QA theorem which has historically influenced the developed of the field Notation and Conventions.\\E$"}
+{"rule":"ARTICLE_ADJECTIVE_OF","sentence":"^\\QA theorem which not only jumped the gap between mathematics and physics, but has historically influenced the developed of the field Notation and Conventions.\\E$"}
+{"rule":"ARTICLE_ADJECTIVE_OF","sentence":"^\\QA theorem which not only jumped the gap between mathematics and physics, but has had historical influence over the developed of the field Notation and Conventions.\\E$"}

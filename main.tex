@@ -1,0 +1,26 @@
+\documentclass[11pt, a4paper, reqno]{amsart}
+
+\usepackage{stdthesis} %stdthesis.sty preamble file
+\graphicspath{{./images/}}
+
+\addbibresource{references.bib}
+
+% UNCOMMAND TO HIDE TODOS
+%\renewcommand{\todo}[1]{}
+%\renewcommand{\printTodoListwithSections}{}
+
+\begin{document}
+\input{titlepage}
+\tableofcontents
+\newpage
+
+%\section{Introduction}
+%\subfile{sections/Introduction.tex}
+
+
+% Bibliography
+\newpage
+\printbibliography
+%TodoList
+\printTodoListwithSections
+\end{document}
